@@ -1,0 +1,117 @@
+
+
+#########################################
+#
+# Prep to align left-right foot readings
+#
+########################################
+getwd()
+sensorskifeet<-read.csv("sensordataskifeet.csv", header = TRUE, stringsAsFactors = FALSE)
+sensorskifeet<-as.data.frame(sensorskifeet)
+sensorskifeet$index<-rownames(sensorskifeet)
+
+sensorskifeet<-sensorskifeet %>% 
+  mutate(timedifference = ExperimentTimeFraction - lag(ExperimentTimeFraction)) 
+
+sensorskifeet<-sensorskifeet %>% 
+  mutate(proptimediff = (timedifference / ifelse(lag(ExperimentTimeFraction)>0,
+                                                         lag(ExperimentTimeFraction),
+                                                         0)
+                         ))
+#cludge, new pair interval identified based on manual inspection 
+sensorskifeet$pairchangecounter<-ifelse(abs(sensorskifeet$timedifference)>5000000|
+                                          abs(sensorskifeet$proptimediff)>.06,
+                                          1,0)
+#initialize
+sensorskifeet$timedifference[1]<-0
+sensorskifeet$proptimediff[1]<-0
+sensorskifeet$pairchangecounter[1]<-0
+sensorskifeet<-sensorskifeet[sensorskifeet$ExperimentTimeFraction>0,]
+indexpair<-1
+i<-2
+sensorskifeet$indexpair<-1
+todelete<-0
+leftfootcount<-0
+rightfootcount<-0
+o<-1
+
+#####################################
+#
+#Mark intervals between reading pairs
+#
+######################################
+  for (i in 2:length(sensorskifeet$index)) {
+
+    if(sensorskifeet[i,c("pairchangecounter")]>0){
+      indexpair<-indexpair+1
+      sensorskifeet$indexpair[i]<-indexpair
+    }
+    else{
+      sensorskifeet$indexpair[i]<-indexpair
+      }
+  }  
+
+
+
+ 
+############################################
+#
+#Clean out rows without matching pair of observations between feet
+#
+##########################################
+
+for( p in as.integer(1:max(sensorskifeet$indexpair)))
+    {
+    observationset<-which(sensorskifeet$indexpair==p)
+    print(observationset)
+
+        for( o in min(observationset):max(observationset)){
+
+          rightfootcount<-ifelse((sensorskifeet[which(sensorskifeet$index==o),"tag"]=="Rightfoot"),
+          (rightfootcount+1),
+          (rightfootcount))
+          leftfootcount<-ifelse((sensorskifeet[which(sensorskifeet$index==o),"tag"]=="Leftfoot"),
+                         (leftfootcount+1),
+                         (leftfootcount))
+          }
+    print(paste("leftfootcount",leftfootcount))
+    print(paste("rightfootcount",rightfootcount))
+  
+  if ((rightfootcount+leftfootcount)<2){
+  todelete<-cbind(todelete,o)
+ 
+  }
+
+    if ((rightfootcount+leftfootcount)>2) {
+      o<-sensorskifeet[min(observationset):max(observationset),]
+      justrows<-rownames(o)
+      deletionlist<-as.list(as.data.frame(t(todelete)))
+      justrows<-justrows[!justrows %in% deletionlist]
+      justrows<-as.data.frame(t(justrows))
+      todelete<-cbind(todelete,justrows)
+
+  
+    }
+      
+  leftfootcount<-0
+  rightfootcount<-0
+  }
+
+print(todelete)
+
+
+dim(todelete)
+head(sensorskifeet)
+dim(sensorskifeet)
+deletes<-t(todelete)
+head(deletes)
+rownames(deletes)<-NULL
+
+sub<-sensorskifeet[!as.integer(sensorskifeet$index) %in% deletes,]
+dim(sub)
+head(sub)
+
+sub<-arrange(sub,indexpair,tag)
+sub$tag
+
+#######################

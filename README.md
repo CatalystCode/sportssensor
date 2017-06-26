@@ -1,75 +1,16 @@
-# SensorKit
+# IoT Sports Sensors Help Aspiring Amateurs Up Their Game
 
-SensorKit is an open library and a set of tools for sensors and machine learning. If you are a sensor manufacturer, the library provides a high level SDK to make it easier for developers to use your products. For developers, the library makes it very easy to connect Bluetooth LE sensors (or other sensors, e.g. WiFi etc) to you app, gather sensor data and process it with advanced machine learning and AI algorithms.
+Recently, Microsoft partnered with the [Professional Ski Instructors of America and the American Association of Snowboard Instructors, (PSIA-AASI)](http://www.thesnowpros.org/) to use wearable IoT sensors in order to develop a machine learning model of skiing skills and expertise levels.  PSIAA-AASI continually evaluates new technology and methods for nurturing learning experiences for developing skiers and snowboarders.
 
-![SensorKit running in the app](https://github.com/kevinash/SensorKit/blob/master/assets/sensorkit_app_250.png)
+In this Github repository, we are open sourcing both hardware and software that we developed in this study with the general public. This repository has two parts:
 
-## How to add your sensor to SensorKit
+1. [How to set up the sensor kit for your sports](./SensorKit/README.md). Follow the instructions and use the scripts provided in this directory, you should be able to easily set up your hardware (sensors) and system for collecting the data from the sports. 
 
-* Add your own sensor to [SensorsRegistry](https://github.com/kevinash/SensorKit/blob/master/SensorKit/SensorsRegistry.cs). SensorKit is open to all sensor manufacturers.
+[NOTE] We demonstrated using some certain types of IoT sports sensors to collect data in this study. However, the same code should work on sensors from other manufacturers, as long as you are calibrating them correctly such that they all have the same sampling time stamps, and they are all referring to the same __point zero__ for their position readings (or other readings as long as __point zero__ makes sense). 
 
-* Make sure to provide [SensorCapabilities](https://github.com/kevinash/SensorKit/blob/master/SensorKit/SensorCapabilities.cs) describing what your sensor can do in the [SensorsRegistry](https://github.com/kevinash/SensorKit/blob/master/SensorKit/SensorsRegistry.cs). If your sensor can do more than that, add new capability to [SensorCapabilities](https://github.com/kevinash/SensorKit/blob/master/SensorKit/SensorCapabilities.cs)
+2. [How to analyze the sensory data and build machine learning models](./RScripts/README.md). The R scripts provided in this directory allow you to analyze the sensory data you collect during the sports. They can help you get insights from the sensory data to understand the major factors that differentiate the athletes with different skill levels of the sports you are investigating. Such insights can provide you some customized and quantitative guidance, no matter whether you are the athlete, or the trainer, on what the areas are for you to improve your skills. The R scripts also train a logistic regression model to categorize athletes into groups of different skill levels.
 
-* Clone and create a new connector class based on [SensorConnector](https://github.com/kevinash/SensorKit/blob/master/SensorKit/SensorKitConnector.cs) class for your sensor (naming convention is ...Connector e.g. MySensorConnector.cs). This class describes how your sensor connects with your device.
-
-* DONE! SensorKit automatically polls/accepts notifications from your sensor and updates its data model.
-
-## How to use SensorKit in your app
-
-A good place for SensorKit is your Universal app's App.xaml.cs file.
-
-```C#
-public SensorKit Sensors { get; set;}
-```
-
-Then instantiate SensorKit in your OnLaunched event. 
-
-```C#
-// make an instance of SensorKit
-Sensors = new SensorKit();
-```
-
-Then, when your app needs to scan for sensors supported by SensorKit, add:
-
-```C#
-Sensors.StartScanning();
-```
-If you have SensorKit supported devices around, this will eventually add discovered devices to SensorKit.Data, a collection of discovered sensors. After sensors are added you can subscribe to them:
-
-```C#
- var sensor = Sensors.FirstOrDefault(s=>s.Name == "My Sensor");
- if(sensor != null)
-  await sensor.Subscribe();
- ``` 
-
-The above subscribes to the sensor. You probably also need to tag your sensor (for example by establishing a human body joint it's attached to). Simply, set sensor.Tag, for example sensor.Tag = "LeftLowerArm"; Once the sensor is subscribed to, SensorKit will be polling data automatically, if you started polling with:
-
-```C#
-Sensors.Start();
-``` 
+Feel free to try it out on the sports you are interested in. We also encourage you to contribute to this repository based on your experience of applying it. You can ask questions in [Issues](./issues), or even make a pull request to contribute codes or documents to this repository. We would like to work with you to make the sports we care about more aspiring and more data driven. 
 
 
-SensorKit supports the latest Bluetooth stack, GATT Services and unpaired devices (you don't need to make users pair with the sensor for sensor kit to use its data).
-
-## Azure Auto Upload
-
-Uploading to Azure happens automatically, if you provided Azure storage account name, key and container. 
-
-## Sensors supported by SensorKit
-
-Add your own sensor to [SensorsRegistry](https://github.com/kevinash/SensorKit/blob/master/SensorKit/SensorsRegistry.cs). SensorKit is open to all sensor manufacturers. If you are a registered developer, simply update GitHub with your sensor information in the open [SensorsRegistry](https://github.com/kevinash/SensorKit/blob/master/SensorKit/SensorsRegistry.cs) and you can use SensorKit to connect to any sensors supported by the kit easily:
-
-[![illumiSki](https://github.com/kevinash/SensorKit/blob/master/assets/illumiski-150.png)](https://illumisens.com) [illumiSki](https://illumisens.com) sensor addon for ski and snowboard
-
-![illumiSens](https://github.com/kevinash/SensorKit/blob/master/assets/illumisens-150.png)
-[illumiSens](https://illumisens.com) body sensor with straps
-
-![illumiBand](https://github.com/kevinash/SensorKit/blob/master/assets/illumiband-150.png)
-[illumiBand](https://illumisens.com/) wearable wrist sensor
-
-## Apps using SensorKit
-
-[Active Fitness](http://activefitness.co) - Active Fitness is a fitness tracking app and a social fitness network of 2 million users
-
-[Winter Sports](http://winter-sports.co) - Winter Sports is an app geared towards ski and snowboard enthusiasts
 

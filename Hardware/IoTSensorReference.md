@@ -1,7 +1,7 @@
 # Examples of IoT Sensor Hardware
 
 
-And following are a small sampling of IoT Sensor Hardware on the market which will emit the positional data that will allow you to replicate the sports expertise classification model in this repo.
+Following is a small sampling of IoT Sensor Hardware on the market which will emit the positional data that will allow you to replicate the sports expertise classification model in this repo.  
 
 XSens MTi-G-710
 https://www.xsens.com/products/mti-g-710/

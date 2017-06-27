@@ -1,10 +1,11 @@
 　
-######################################################
+#######################################################################################
 #
-# Example - Aligning left and rigth sensorski readings
+# Example - Aligning left and right sensorski readings
 # Find data file 'sensordataskifeet.csv' in this repo.
+# In addition to this example, also reference 'align.time' function in the xts package
 #　
-######################################################
+#######################################################################################
 
 ################################
 # Data Preparation

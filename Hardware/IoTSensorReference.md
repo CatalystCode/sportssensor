@@ -1,6 +1,6 @@
 # Examples of IoT Sensor Hardware
 
-While there are many IoT sports sensor available on the market, we are listing a few of them here that we are aware of. You are recommended to read carefully about the manual of the IoT sensors of your choice. Then use the scripts provided in directory [SensorKit](../SensorKit) to connect your sensors to your applications. 
+While there are many IoT sports sensors available on the market, we are listing a few of them here that we are aware of. You are recommended to read carefully about the manual of the IoT sensors of your choice. Then use the scripts provided in directory [SensorKit](../SensorKit) to connect your sensors to your applications. 
 
 Following is a small sampling of IoT Sensor Hardware on the market which will emit the positional data that will allow you to replicate the sports expertise classification model in this repo.  
 

@@ -1,10 +1,15 @@
 　
-#########################################
+######################################################
 #
-# Prep to align left-right foot readings
-　
-########################################
-getwd()
+# Example - Aligning left and rigth sensorski readings
+# Find data file 'sensordataskifeet.csv' in this repo.
+#　
+######################################################
+
+################################
+# Data Preparation
+################################
+
 sensorskifeet<-read.csv("sensordataskifeet.csv", header = TRUE, stringsAsFactors = FALSE)
 sensorskifeet<-as.data.frame(sensorskifeet)
 sensorskifeet$index<-rownames(sensorskifeet)
@@ -17,7 +22,7 @@ sensorskifeet<-sensorskifeet %>%
                                                          lag(ExperimentTimeFraction),
                                                          0)
                          ))
-#cludge, new pair interval identified based on manual inspection 
+#new pair interval identified based on manual inspection 
 sensorskifeet$pairchangecounter<-ifelse(abs(sensorskifeet$timedifference)>5000000|
                                           abs(sensorskifeet$proptimediff)>.06,
                                           1,0)
@@ -35,9 +40,7 @@ rightfootcount<-0
 o<-1
 　
 #####################################
-#
 #Mark intervals between reading pairs
-#
 ######################################
   for (i in 2:length(sensorskifeet$index)) {
 　
@@ -50,13 +53,9 @@ o<-1
       }
   }  
 　
-　
-　
  
 ############################################
-#
-#Clean out rows without matching pair of observations between feet
-#
+#Clean and match feet sensor readings
 ##########################################
 　
 for( p in as.integer(1:max(sensorskifeet$indexpair)))

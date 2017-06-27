@@ -10,7 +10,6 @@ https://www.xsens.com/products/mti-g-710/
 TDK InvenSens
 https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/
 
-
 Find the latest Azure IoT hardware kits at the following link.
 https://catalog.azureiotsuite.com/kits
 

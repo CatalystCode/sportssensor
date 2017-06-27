@@ -10,6 +10,9 @@ https://www.xsens.com/products/mti-g-710/
 TDK InvenSens
 https://www.invensense.com/products/motion-tracking/9-axis/mpu-9250/
 
+TI SensorTag 
+http://www.ti.com/ww/en/wireless_connectivity/sensortag2015/index.html?INTC=SensorTag&HQS=sensortag-pr
+
 Find the latest Azure IoT hardware kits at the following link.
 https://catalog.azureiotsuite.com/kits
 
